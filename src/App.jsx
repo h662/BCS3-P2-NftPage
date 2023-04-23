@@ -1,5 +1,14 @@
+import { useState } from "react";
+import Header from "./components/Header";
+
 function App() {
-  return <div className="bg-red-100">Hello, React</div>;
+  const [account, setAccount] = useState("");
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-white">
+      <Header account={account} setAccount={setAccount} />
+    </div>
+  );
 }
 
 export default App;
