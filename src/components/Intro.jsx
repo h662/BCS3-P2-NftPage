@@ -9,7 +9,7 @@ const imgSrc = `${process.env.REACT_APP_IMAGE_URL}/${ranNum}.png`;
 const web3 = new Web3(window.ethereum);
 const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
-const Intro = ({ account }) => {
+const Intro = ({ account, setPage }) => {
   const [myNfts, setMyNfts] = useState(0);
   const [mintedNfts, setMintedNfts] = useState(0);
 
@@ -30,9 +30,8 @@ const Intro = ({ account }) => {
 
       const response = await contract.methods.totalSupply().call();
 
-      console.log(response);
-
       setMintedNfts(response);
+      setPage((parseInt(response) - 1) / 10 + 1);
     } catch (error) {
       console.error(error);
     }
