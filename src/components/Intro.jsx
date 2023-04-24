@@ -11,6 +11,7 @@ const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
 const Intro = ({ account }) => {
   const [myNfts, setMyNfts] = useState(0);
+  const [mintedNfts, setMintedNfts] = useState(0);
 
   const getMyNfts = async () => {
     try {
@@ -18,29 +19,43 @@ const Intro = ({ account }) => {
 
       const response = await contract.methods.balanceOf(account).call();
 
+      setMyNfts(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getMintedNft = async () => {
+    try {
+      if (!contract) return;
+
+      const response = await contract.methods.totalSupply().call();
+
       console.log(response);
 
-      setMyNfts(response);
-    } catch (error) {}
+      setMintedNfts(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     getMyNfts();
+    getMintedNft();
   }, [contract, account]);
 
   return (
     <div className="bg-gradient-to-b from-transparent  to-red-400 pt-10 px-4">
       <div className="max-w-screen-xl mx-auto relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-9xl opacity-40 text-yellow-300">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-9xl opacity-40 text-yellow-300 truncate">
           Da Den Bu
         </div>
-        <div className="relative w-20 h-20">
+        <div className="relative w-40 h-40">
           <img
-            className="w-20 h-20 rounded-full z-10 absolute top-0"
+            className="w-40 h-40 rounded-full z-10 absolute top-0"
             src={imgSrc}
             alt="NFT"
           />
-          <div className="w-20 h-20 rounded-full bg-white text-gray-950 absolute top-0 z-0 flex justify-center items-center text-xs">
+          <div className="w-40 h-40 rounded-full bg-white text-gray-950 absolute top-0 z-0 flex justify-center items-center text-xs">
             Loading...
           </div>
         </div>
@@ -64,6 +79,10 @@ const Intro = ({ account }) => {
           <div>
             <div className="font-bold">1,000</div>
             <div className="text-gray-300">총 NFT</div>
+          </div>
+          <div className="ml-4">
+            <div className="font-bold">{mintedNfts}</div>
+            <div className="text-gray-300">발행된 NFT</div>
           </div>
           <div className="ml-4">
             <div className="font-bold">{myNfts}</div>
