@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "./web3.config";
 import Web3 from "web3";
 import Header from "./components/Header";
-import Intro from "./components/Intro";
-import Nfts from "./components/Nfts";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Main from "./pages/main";
+import Detail from "./pages/datail";
 
 const web3 = new Web3(window.ethereum);
 const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
@@ -45,16 +46,25 @@ function App() {
   }, [contract, account]);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      <Header account={account} setAccount={setAccount} />
-      <Intro
-        account={account}
-        setPage={setPage}
-        myNfts={myNfts}
-        mintedNfts={mintedNfts}
-      />
-      <Nfts page={page} mintedNfts={mintedNfts} />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-950 text-white">
+        <Header account={account} setAccount={setAccount} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                setPage={setPage}
+                myNfts={myNfts}
+                mintedNfts={mintedNfts}
+                page={page}
+              />
+            }
+          />
+          <Route path="/:tokenId" element={<Detail account={account} />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

@@ -1,4 +1,5 @@
 import { FaChessRook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const NftCard = ({ tokenId, metadata, mintedNfts }) => {
   return (
@@ -17,13 +18,15 @@ const NftCard = ({ tokenId, metadata, mintedNfts }) => {
       </div>
       <div className="mt-4 text-2xl font-bold px-4"># {tokenId}</div>
       <div className="mt-4 text-xl  flex justify-end items-center px-4">
-        <button
-          className="bg-gray-50 text-gray-950 px-4 py-2 rounded-xl hover:bg-gray-500"
-          disabled={parseInt(mintedNfts) < tokenId}
-          onClick={() => console.log("nft card")}
-        >
-          Detail
-        </button>
+        <Link to={`/${tokenId}`}>
+          <button
+            className="bg-gray-50 text-gray-950 px-4 py-2 rounded-xl hover:bg-gray-500"
+            disabled={parseInt(mintedNfts) < tokenId}
+            onClick={() => console.log("nft card")}
+          >
+            Detail
+          </button>
+        </Link>
       </div>
     </div>
   );

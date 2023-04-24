@@ -48,7 +48,7 @@ const Nfts = ({ page, mintedNfts }) => {
           }`}
           onClick={onClickPage(i + 1)}
         >
-          {i + 1}
+          {i + 1} <span className="text-base">페이지</span>
         </button>
       );
     }

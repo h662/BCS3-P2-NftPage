@@ -3,6 +3,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { BiWallet } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Header = ({ account, setAccount }) => {
   const [coinPrice, setCoinPrice] = useState();
@@ -41,10 +42,12 @@ const Header = ({ account, setAccount }) => {
 
   return (
     <header className="max-w-screen-xl mx-auto p-4 flex justify-between font-bold">
-      <div className="text-main flex items-center">
-        <FaChessRook size={28} />
-        <div className="ml-1 text-xl">Ble-Chess</div>
-      </div>
+      <Link to="/">
+        <div className="text-main flex items-center">
+          <FaChessRook size={28} />
+          <div className="ml-1 text-xl">Ble-Chess</div>
+        </div>
+      </Link>
       <div className="flex items-center">
         {coinPrice && (
           <div className="flex text-gray-400">
