@@ -1,47 +1,10 @@
 import { FaChessRook } from "react-icons/fa";
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../web3.config";
-import { useEffect, useState } from "react";
-import Web3 from "web3";
+import { CONTRACT_ADDRESS } from "../web3.config";
 
 const ranNum = Math.floor(Math.random() * 1000) + 1;
 const imgSrc = `${process.env.REACT_APP_IMAGE_URL}/${ranNum}.png`;
 
-const web3 = new Web3(window.ethereum);
-const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-
-const Intro = ({ account, setPage }) => {
-  const [myNfts, setMyNfts] = useState(0);
-  const [mintedNfts, setMintedNfts] = useState(0);
-
-  const getMyNfts = async () => {
-    try {
-      if (!contract || !account) return;
-
-      const response = await contract.methods.balanceOf(account).call();
-
-      setMyNfts(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const getMintedNft = async () => {
-    try {
-      if (!contract) return;
-
-      const response = await contract.methods.totalSupply().call();
-
-      setMintedNfts(response);
-      setPage((parseInt(response) - 1) / 10 + 1);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getMyNfts();
-    getMintedNft();
-  }, [contract, account]);
-
+const Intro = ({ myNfts, mintedNfts }) => {
   return (
     <div className="bg-gradient-to-b from-transparent  to-red-400 pt-10 px-4">
       <div className="max-w-screen-xl mx-auto relative">
